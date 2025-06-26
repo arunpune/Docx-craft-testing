@@ -52,7 +52,6 @@ client/         # React frontend (Vite, TailwindCSS, Supabase client)
 server/         # Express backend (TypeScript, Drizzle ORM, Supabase admin)
 shared/         # Shared types and schema
 drizzle/        # Database migrations
-cypress/        # E2E tests
 ```
 
 - **Frontend**: React (Vite), TypeScript, TailwindCSS, Supabase JS client
@@ -98,7 +97,6 @@ cypress/        # E2E tests
 
 - **eslint** / **prettier**: Linting and formatting.
 - **jest** / **vitest**: Unit testing.
-- **cypress**: End-to-end testing.
 - **ts-node**: Run TypeScript scripts (e.g., migrations).
 - **nodemon**: Hot-reloading for backend dev.
 
@@ -157,6 +155,9 @@ VITE_SUPABASE_ANON_KEY=<your-anon-key>
 SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
 SUPABASE_BUCKET=documents
 PORT=5000
+NODE_ENV=development
+VITE_SENTRY_DSN=your-sentry-dsn
+
 ```
 
 - The DATABASE_URL can be found in the Connect button under Direct Connection.
@@ -206,23 +207,55 @@ docker run -p 5000:5000 --env-file .env docx-craft
 - `npm start` — Start production server
 - `npm run db:migrate` — Run Drizzle ORM migrations
 - `npm run test` — Run unit tests
-- `npm run test:e2e` — Run Cypress E2E tests
 
 ---
 
 ## Testing
 
 - **Unit tests:** `npm run test`
-- **E2E tests:** `npm run test:e2e` (Cypress)
 
----
+## Error Monitoring with Sentry
 
-## License
+1. **Get a Sentry DSN:**
 
-MIT
+   - Sign up at [sentry.io](vscode-file://vscode-app/c:/Users/harsh/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html) and create a project (choose React).
+   - Copy your DSN (Data Source Name).
 
----
+2. Add DSN to [.env](vscode-file://vscode-app/c:/Users/harsh/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html):
+   `VITE_SENTRY_DSN=your_sentry_dsn_here`
+3. **Sentry is initialized in [main.tsx](vscode-file://vscode-app/c:/Users/harsh/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html):**
+   No further action needed unless you want to change the DSN.
+4. **Test Sentry:**
 
-**Maintainers:**
+   - Run the app.
+   - Click the “Break the world” button (if present) to trigger a test error.
+   - Check your Sentry dashboard for the error.
 
-- [Your Name](mailto:your@email.com)
+## End-to-End Testing with Playwright
+
+1. **Install dependencies:**
+
+   `npm install`
+
+2. **Run Playwright tests:**
+
+   `npx playwright test`
+
+3. **Run Playwright in headed (UI) mode:**
+
+   `npx playwright test --headed`
+
+4. **Open Playwright Test UI:**
+
+   `npx playwright test --ui`
+
+5. **View HTML test report:**
+
+   After running tests, open the report:
+
+   `npx playwright show-report`
+
+6. **Add new tests:**
+
+   - Place new test files in the [tests](vscode-file://vscode-app/c:/Users/harsh/AppData/Local/Programs/Microsoft%20VS%20Code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.html) directory.
+   - See existing tests for examples.
